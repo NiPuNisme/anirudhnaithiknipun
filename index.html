@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Paste the CSS code here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: rgb(51, 57, 141); /* Set background to black */
+        }
+
+        .container {
+            text-align: center;
+            background: linear-gradient(to bottom, #ff0707, #bf38c4); /* Night sky gradient */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adding a slight shadow for depth */
+            position: relative; /* Enable positioning of stars */
+        }
+
+        h1 {
+            color: #fff; /* White text color */
+        }
+
+        #scrambledWord {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #fff; /* White text color */
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #2196F3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0e81ce;
+        }
+
+        #hint {
+            margin-top: 10px;
+            color: #fff; /* White text color */
+        }
+
+        /* Star styling */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #fff; /* White star color */
+            border-radius: 50%;
+        }
+
+        /* Positioning of stars */
+        .star1 { top: 10%; left: 15%; }
+        .star2 { top: 20%; left: 70%; }
+        .star3 { top: 30%; left: 40%; }
+        .star4 { top: 40%; left: 85%; }
+        .star5 { top: 50%; left: 25%; }
+        .star6 { top: 60%; left: 60%; }
+        .star7 { top: 70%; left: 10%; }
+        .star8 { top: 80%; left: 80%; }
+        .star9 { top: 90%; left: 50%; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Word Scramble Game</h1>
+        <div id="scrambledWord"></div>
+        <input type="text" id="guessInput" placeholder="Enter your guess...">
+        <button onclick="checkGuess()">Check</button>
+        <div id="result"></div>
+        <button onclick="generateWord()">Next Word</button>
+        <button onclick="revealHint()">Hint</button>
+        <div id="hint" style="display: none;"></div>
+    </div>
+    <script>
+        // Paste the JavaScript code here
+        const wordsWithHints = [
+            { word: 'javascript', hint: 'A programming language commonly used for web development.' },
+            { word: 'programming', hint: 'The process of writing code to create computer programs.' },
+            { word: 'developer', hint: 'A person who writes code to create software applications.' },
+            { word: 'coding', hint: 'The act of writing and organizing code to solve problems.' },
+            { word: 'html', hint: 'A markup language used to create the structure of web pages.' },
+            { word: 'css', hint: 'A styling language used to control the presentation of web pages.' },
+            { word: 'web', hint: 'A network of interconnected documents and resources accessed via the Internet.' }
+        ];
+
+        let currentWordIndex = -1;
+        let currentWord = '';
+        let currentHint = '';
+        let resultDisplay = document.getElementById('result');
+        let scrambledWordDisplay = document.getElementById('scrambledWord');
+        let hintDisplay = document.getElementById('hint');
+
+        generateWord();
+
+        function generateWord() {
+            currentWordIndex = Math.floor(Math.random() * wordsWithHints.length);
+            currentWord = wordsWithHints[currentWordIndex].word;
+            currentHint = wordsWithHints[currentWordIndex].hint;
+            scrambledWordDisplay.textContent = scrambleWord(currentWord);
+            resultDisplay.textContent = '';
+            hintDisplay.textContent = '';
+            hintDisplay.style.display = 'none';
+        }
+
+        function scrambleWord(word) {
+            return word.split('').sort(() => Math.random() - 0.5).join('');
+        }
+
+        function checkGuess() {
+            const guessInput = document.getElementById('guessInput').value.toLowerCase();
+
+            if (guessInput === currentWord) {
+                resultDisplay.textContent = 'Correct!';
+            } else {
+                resultDisplay.textContent = 'Incorrect! Try again.';
+            }
+        }
+
+        function revealHint() {
+            hintDisplay.textContent = `Hint: ${currentHint}`;
+            hintDisplay.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
